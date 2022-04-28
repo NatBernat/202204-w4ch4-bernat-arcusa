@@ -2,18 +2,32 @@ import { render, screen } from "@testing-library/react";
 import Action from "./Action";
 
 describe("Given Action component", () => {
-  describe("When instantiated with 'Test button' text", () => {
-    test("Then it should render a button with 'Test button' text", () => {
-      const text = "Test button";
-      const clickAction = jest.fn();
-      const action = jest.fn();
+  let clickAction;
+  let action;
+  let isActive;
+  beforeEach(() => {
+    clickAction = jest.fn();
+    action = "call";
+    isActive = "true";
+  });
+  describe("When instantiated with 'call' action", () => {
+    test("Then it should render a button", () => {
+      render(<Action action={action} actionOnClick={clickAction} />);
+      const actionTest = screen.getByRole("link");
 
+      expect(actionTest).toBeInTheDocument();
+    });
+    test("Then it should render a button with 'Call' text", () => {
       render(
-        <Action text={text} action={action} actionOnClick={clickAction} />
+        <Action
+          action={action}
+          isActive={isActive}
+          actionOnClick={clickAction}
+        />
       );
-      const keyTest = screen.getByRole("link");
+      const actionTest = screen.getByText("Call");
 
-      expect(keyTest).toBeInTheDocument();
+      expect(actionTest).toBeInTheDocument();
     });
   });
 });
